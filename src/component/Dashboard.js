@@ -36,13 +36,14 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor:'rgb(183, 181, 151)'
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent:'center',
-    padding:20,
+    padding:10,
     fontSize:60
   },
 });

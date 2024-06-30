@@ -1,10 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TextInput,StyleSheet } from 'react-native';
+import { View, Text, TextInput,StyleSheet, FlatList, ScrollView, } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import {Dimensions} from 'react-native';
 
 import { AppContext } from '../../context';
+import ModalDropdown from 'react-native-modal-dropdown';
+// import { FlatList } from 'react-native-web';
 
 const CurrencyConvert = () => {
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+
   const [text, setText] = useState("");
   const [text1, setText1] = useState("");
   const [secondaryCurrency, setSecondaryCurrency] = useState("");
@@ -35,12 +41,18 @@ const CurrencyConvert = () => {
     }
   }, [secondaryCurrency]);
 
+console.log("Idharr ",secondaryCurrency)
   return (
+    <ScrollView style={{backgroundColor:'rgb(183, 181, 151)'}}
+   >
     <View style={{
-      flexGrow: 1,
+    //  borderWidth:5,
+    padding:10,
+      flex: 1,
+      justifyContent:"center"
       }}>
-      <Text style={{fontSize:25}}>Primary Currency</Text>
-      <Picker 
+      
+      {/* <Picker 
         style={styles.picker}
   itemStyle={styles.itemStyle}
   labelStyle={styles.labelStyle}
@@ -50,37 +62,63 @@ const CurrencyConvert = () => {
         {Object.keys(curr || {}).map((key, index) => (
           <Picker.Item key={index} label={key} value={key} />
         ))}
-      </Picker>
+      </Picker> */}
+      <View style={{
+        height:windowHeight/2,
+        // borderWidth:0.5,
+        
+        justifyContent:'space-evenly'
+      }}>
+      <Text style={{fontSize:25, textAlign:'center',color:'rgb(60, 54, 51)'}}>Primary Currency</Text>
+      <ModalDropdown options={Object.keys(curr || {})} onSelect={(index, value) => {setSelectedCurrency(value)}}
+        style={{maxWidth:windowWidth,borderWidth:1}}
+        textStyle={{fontSize:20,color:'rgb(60, 54, 51)'}}
+        dropdownStyle={{width:windowWidth}}
+        dropdownTextStyle={{ fontSize: 25, textAlign: 'center',color:'rgb(60, 54, 51)',backgroundColor:'rgb(224, 204, 190)' }}
+      />
 
-      <View style={{ borderWidth: 2 }}>
+
+      <View style={{ }}>
+      <Text style={{color:'rgb(60, 54, 51)'}}>Value To Convert</Text>
         <TextInput
+
           placeholder="Enter amount to convert"
           onChangeText={newText => setText(newText)}
           value={text}
-          style={{fontSize:20}}
+          style={{fontSize:20,borderWidth:0.5}}
           keyboardType="numeric"
         />
       </View>
 
-      <Text style={{fontSize:25}}>Secondary Currency</Text>
-      <Picker
+      <Text style={{fontSize:25,textAlign:'center',color:'rgb(60, 54, 51)'}}>Secondary Currency</Text>
+      {/* <Picker
         selectedValue={secondaryCurrency}
         onValueChange={(itemValue) => setSecondaryCurrency(itemValue)}
       >
         {Object.keys(obtainCurrency || {}).map((key, i) => (
           <Picker.Item key={i} label={key} value={key} />
         ))}
-      </Picker>
+      </Picker> */}
 
-      <View style={{ borderWidth: 2 }}>
+      <ModalDropdown options={Object.keys(obtainCurrency || {})} onSelect={(index, value) => {setSecondaryCurrency(value)}}
+                style={{maxWidth:windowWidth,borderWidth:1}}
+        textStyle={{fontSize:20,color:'rgb(60, 54, 51)'}}
+        dropdownStyle={{width:windowWidth}}
+        dropdownTextStyle={{ fontSize: 25, textAlign: 'center',color:'rgb(60, 54, 51)' ,backgroundColor:'rgb(224, 204, 190)'}}
+      />
+      
+      <View style={{ }}>
+      <Text style={{color:'rgb(60, 54, 51)'}}>Converted Value</Text>
         <TextInput
-          style={{fontSize:20,color:'black'}}
+          style={{fontSize:20,color:'black',borderWidth:0.5}}
           placeholder="Converted amount"
-          value={text1.toString()} // Ensure to display as string
+          value={text1.toString()}
           editable={false}
         />
       </View>
+      </View>
     </View>
+    </ScrollView>
   );
 };
 
