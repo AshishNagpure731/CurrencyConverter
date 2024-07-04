@@ -8,6 +8,9 @@ import ModalDropdown from 'react-native-modal-dropdown';
 // import { FlatList } from 'react-native-web';
 
 const CurrencyConvert = () => {
+  const { dispatchUserEvent, curr } = useContext(AppContext);
+
+
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
 
@@ -15,33 +18,30 @@ const CurrencyConvert = () => {
   const [text1, setText1] = useState("");
   const [secondaryCurrency, setSecondaryCurrency] = useState("");
   const [obtainCurrency, setObtainCurrency] = useState({});
-  const { dispatchUserEvent, curr } = useContext(AppContext);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
 
   useEffect(() => {
     // Update obtainCurrency when curr changes
     if (curr && Object.keys(curr).length > 0) {
       setObtainCurrency(curr);
-      dispatchUserEvent('REMOVE_USER', { currID: selectedCurrency });
+      dispatchUserEvent('Preferred_Currency', { currID: selectedCurrency });
     }
   }, [ selectedCurrency]);
 
   useEffect(() => {
     // Calculate converted amount when secondaryCurrency changes
     if (obtainCurrency && Object.keys(obtainCurrency).length > 0) {
-      Object.keys(obtainCurrency).forEach(key => {
+      Object.keys(curr).forEach(key => { //obtainCurrency
         if (key === secondaryCurrency) {
           const val = parseInt(text);
-          console.log(val)
-          console.log(key)
-          console.log(obtainCurrency[secondaryCurrency])
-          setText1(val * obtainCurrency[secondaryCurrency]);
+          
+          setText1(val * curr[secondaryCurrency]);
         }
       });
     }
   }, [secondaryCurrency]);
 
-console.log("Idharr ",secondaryCurrency)
+
   return (
     <ScrollView style={{backgroundColor:'rgb(183, 181, 151)'}}
    >

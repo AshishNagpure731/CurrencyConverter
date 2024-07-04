@@ -21,7 +21,6 @@ export default function App() {
     fetch(`https://open.er-api.com/v6/latest/${Data === "" ? Currency : Data}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result.rates)
         setCurr(result.rates);
       })
       .catch((error) => console.error(error));
@@ -33,7 +32,7 @@ export default function App() {
       case 'ADD_USER':
         // Handle adding user action if needed
         break;
-      case 'REMOVE_USER':
+      case 'Preferred_Currency':
         setData(payload.currID); 
         break;
       default:
